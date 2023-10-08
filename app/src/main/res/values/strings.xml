@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">amar-nos-pontos</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="nacionalidade">Nacionalidade</string>
+    <string name="estado_civil">Estado Civil</string>
+    <string name="profissao">Profissão</string>
+    <string name="cpf_cnpj">CPF/CNPJ</string>
+    <string name="estado">Estado</string>
+    <string name="municipio">Município</string>
+    <string name="complemento">Complemento</string>
+    <string name="lote">Lote</string>
+    <string name="quadra">Quadra</string>
+    <string name="numero">Número</string>
+    <string name="logradouro">Logradouro</string>
+    <string name="bairro">Bairro</string>
+    <string name="valor">Valor</string>
+    <string name="salvar">Salvar</string>
+</resources>

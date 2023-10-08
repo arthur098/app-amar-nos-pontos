@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:background="@color/color_main"
+                android:layout_height="?attr/actionBarSize">
+
+            <ImageView android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:contentDescription="logo amar"
+
+            />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText android:id="@+id/activity_formulario_endereco_bairro"
+              android:hint="@string/bairro"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_logradouro"
+              android:hint="@string/logradouro"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_numero"
+              android:hint="@string/numero"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_quadra"
+              android:hint="@string/quadra"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_lote"
+              android:hint="@string/lote"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_complemento"
+              android:hint="@string/complemento"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_municipio"
+              android:hint="@string/municipio"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_endereco_estado"
+              android:hint="@string/estado"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+</LinearLayout>
