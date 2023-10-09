@@ -36,8 +36,8 @@ public class ListaPessoasActivity extends AppCompatActivity {
     private void setListViewPessoas() {
         viewBind.listaPessoas.setAdapter(pessoaAdapter);
         viewBind.listaPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
-            Intent intent = new Intent(ListaPessoasActivity.this, FormularioPessoaActivity.class);
-            intent.putExtra("pessoa", pessoaAdapter.getItem(i));
+            Intent intent = new Intent(ListaPessoasActivity.this, ListaContratoActivity.class);
+            intent.putExtra("idPessoa", pessoaAdapter.getItemId(i));
 
             startActivity(intent);
         });

@@ -33,5 +33,35 @@
                 <category android:name="android.intent.category.ALTERNATIVE"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.activity.ListaContratoActivity"
+                  android:theme="@style/Theme.Amarnospontos.NoActionBar"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.ALTERNATIVE"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.activity.FormularioContratoActivity"
+                  android:theme="@style/Theme.Amarnospontos.NoActionBar"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.ALTERNATIVE"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.activity.FormularioEnderecoActivity"
+                  android:theme="@style/Theme.Amarnospontos.NoActionBar"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.ALTERNATIVE"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

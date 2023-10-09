@@ -1,13 +1,13 @@
 package br.com.amar.nos.pontos.model;
 
+import androidx.room.Ignore;
+
 public class Endereco {
 
     private Long id;
     private String bairro;
     private String logradouro;
     private String numero;
-    private String quadra;
-    private String lote;
     private String complemento;
     private String municipio;
     private String estado;
@@ -46,22 +46,6 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public String getQuadra() {
-        return quadra;
-    }
-
-    public void setQuadra(String quadra) {
-        this.quadra = quadra;
-    }
-
-    public String getLote() {
-        return lote;
-    }
-
-    public void setLote(String lote) {
-        this.lote = lote;
-    }
-
     public String getComplemento() {
         return complemento;
     }
@@ -92,5 +76,10 @@ public class Endereco {
 
     public void setIdPessoa(Long idPessoa) {
         this.idPessoa = idPessoa;
+    }
+
+    @Ignore
+    public String getEnderecoFormatado() {
+        return String.format("%s, %s, %s, %s, %s - %s", logradouro, numero, complemento, bairro, municipio, estado);
     }
 }

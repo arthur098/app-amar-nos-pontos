@@ -8,11 +8,14 @@
     <string name="estado">Estado</string>
     <string name="municipio">Município</string>
     <string name="complemento">Complemento</string>
-    <string name="lote">Lote</string>
-    <string name="quadra">Quadra</string>
     <string name="numero">Número</string>
     <string name="logradouro">Logradouro</string>
     <string name="bairro">Bairro</string>
     <string name="valor">Valor</string>
     <string name="salvar">Salvar</string>
+    <string name="produto">Produto</string>
+    <string name="observacao">Observação</string>
+    <string name="valor_pago">Valor Pago</string>
+    <string name="nova_pessoa">Nova Pessoa</string>
+    <string name="logo_amar">Logo Amar</string>
 </resources>

@@ -21,45 +21,41 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <EditText android:id="@+id/activity_formulario_endereco_logradouro"
-              android:hint="@string/logradouro"
+
+
+    <EditText android:id="@+id/activity_formulario_contrato_produto"
+              android:hint="@string/produto"
               android:layout_width="match_parent"
               android:inputType="textCapWords"
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
-    <EditText android:id="@+id/activity_formulario_endereco_numero"
-              android:hint="@string/numero"
+    <EditText android:id="@+id/activity_formulario_contrato_valor_pago"
+              android:hint="@string/valor_pago"
               android:layout_width="match_parent"
-              android:inputType="textCapWords"
+              android:inputType="numberDecimal"
+
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
-    <EditText android:id="@+id/activity_formulario_endereco_complemento"
-              android:hint="@string/complemento"
+    <EditText android:id="@+id/activity_formulario_contrato_valor"
+              android:hint="@string/valor"
               android:layout_width="match_parent"
-              android:inputType="textCapWords"
+              android:inputType="numberDecimal"
+
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
-    <EditText android:id="@+id/activity_formulario_endereco_bairro"
-              android:hint="@string/bairro"
+    <Spinner android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/activity_formulario_contrato_status"/>
+
+    <EditText android:id="@+id/activity_formulario_contrato_observacao"
+              android:hint="@string/observacao"
               android:layout_width="match_parent"
               android:inputType="textCapWords"
+
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
-    <EditText android:id="@+id/activity_formulario_endereco_municipio"
-              android:hint="@string/municipio"
-              android:layout_width="match_parent"
-              android:inputType="textCapWords"
-              android:layout_margin="8dp"
-              android:layout_height="wrap_content"/>
-
-    <EditText android:id="@+id/activity_formulario_endereco_estado"
-              android:hint="@string/estado"
-              android:layout_width="match_parent"
-              android:inputType="textCapWords"
-              android:layout_margin="8dp"
-              android:layout_height="wrap_content"/>
 </LinearLayout>

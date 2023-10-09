@@ -11,7 +11,6 @@ import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
 import br.com.amar.nos.pontos.model.Pessoa;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PessoaAdapter extends BaseAdapter {
@@ -23,7 +22,6 @@ public class PessoaAdapter extends BaseAdapter {
         this.context = context;
         Pessoa pessoa = new Pessoa();
         pessoa.setNomeCompleto("Arthur Oliveira Rodrigues");
-        pessoa.setId(1L);
         pessoa.setEstadoCivil(EnumEstadoCivil.CASADO);
         pessoa.setNacionalidade("Brasileiro");
         pessoa.setProfissao("Programador");
