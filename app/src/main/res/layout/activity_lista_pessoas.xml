@@ -5,26 +5,32 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:background="@color/color_main"
-                android:layout_height="?attr/actionBarSize">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:background="@color/color_main"
+                    android:layout_height="?attr/actionBarSize">
 
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:contentDescription="@string/logo_amar"/>
-        </androidx.appcompat.widget.Toolbar>
+                <ImageView android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:contentDescription="@string/logo_amar"/>
+            </androidx.appcompat.widget.Toolbar>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <ListView android:id="@+id/lista_pessoas"
-              android:layout_width="409dp"
-              android:layout_height="wrap_content"/>
+        <ListView android:id="@+id/lista_pessoas"
+                  android:layout_width="409dp"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="false"/>
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -35,6 +41,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:clickable="true"
-            app:srcCompat="?attr/editTextBackground"
+            app:srcCompat="@drawable/ic_action_more"
             android:contentDescription="@string/nova_pessoa"/>
 </RelativeLayout>

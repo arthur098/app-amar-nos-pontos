@@ -15,7 +15,6 @@ import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.databinding.ActivityFormularioContratoBinding;
 import br.com.amar.nos.pontos.enumerator.EnumStatusContrato;
 import br.com.amar.nos.pontos.model.Contrato;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigDecimal;
 
@@ -35,7 +34,7 @@ public class FormularioContratoActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         idPessoa = intent.getLongExtra("idPessoa", 0);
-
+        montaContrato(intent);
         buildStatusSpinner();
     }
 
@@ -48,19 +47,41 @@ public class FormularioContratoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.activity_formulario_menu_salvar) {
-            buildContrato();
-            ContratoDAO.save(contrato);
-            Snackbar.make(FormularioContratoActivity.this, viewBind.getRoot(), contrato.getProduto(), Snackbar.LENGTH_LONG).show();
+            buildContratoPorIdPessoa();
+            if(contrato.getId() == null) {
+                ContratoDAO.save(contrato);
+            } else {
+                ContratoDAO.update(contrato);
+            }
+
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void buildContrato() {
-        contrato = new Contrato();
+    private void montaContrato(Intent intent) {
+        if(intent.hasExtra("idContrato")) {
+            long idContrato = intent.getLongExtra("idContrato", 0);
+            contrato = ContratoDAO.buscarPorId(idContrato);
+            viewBind.activityFormularioContratoProduto.setText(contrato.getProduto());
+            viewBind.activityFormularioContratoValor.setText(contrato.getValor().toString());
+            viewBind.activityFormularioContratoValorPago.setText(contrato.getValorPago().toString());
+            viewBind.activityFormularioContratoStatus.setSelection(contrato.getStatus().ordinal());
+            viewBind.activityFormularioContratoObservacao.setText(contrato.getObservacao());
+            idPessoa = contrato.getPessoa().getId();
+        }
+
+    }
+
+    private void buildContratoPorIdPessoa() {
+        if(contrato == null) {
+            contrato = new Contrato();
+        }
         contrato.setProduto(viewBind.activityFormularioContratoProduto.getText().toString());
         contrato.setStatus(EnumStatusContrato.values()[viewBind.activityFormularioContratoStatus.getSelectedItemPosition()]);
         contrato.setValor(new BigDecimal(viewBind.activityFormularioContratoValor.getText().toString()));
         contrato.setValorPago(new BigDecimal(viewBind.activityFormularioContratoValorPago.getText().toString()));
+        contrato.setObservacao(viewBind.activityFormularioContratoObservacao.getText().toString());
         contrato.setPessoa(PessoaDAO.buscarPorId(idPessoa));
     }
 
@@ -68,6 +89,4 @@ public class FormularioContratoActivity extends AppCompatActivity {
         SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(FormularioContratoActivity.this, com.google.android.material.R.layout.support_simple_spinner_dropdown_item, EnumStatusContrato.values());
         viewBind.activityFormularioContratoStatus.setAdapter(spinnerAdapter);
     }
-
-
 }

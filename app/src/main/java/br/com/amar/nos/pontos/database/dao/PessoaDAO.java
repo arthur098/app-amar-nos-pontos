@@ -14,9 +14,11 @@ public class PessoaDAO {
         return pessoas;
     }
 
-    public static void save(Pessoa pessoa) {
-        pessoa.setId(++lastId);
-        pessoas.add(pessoa);
+    public static void save(Pessoa... pessoaAddList) {
+        for (Pessoa pessoa:pessoaAddList) {
+            pessoa.setId(++lastId);
+            PessoaDAO.pessoas.add(pessoa);
+        }
     }
 
     public static void update(Pessoa pessoa) {

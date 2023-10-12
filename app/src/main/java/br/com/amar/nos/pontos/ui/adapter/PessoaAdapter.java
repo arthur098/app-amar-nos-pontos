@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
@@ -20,14 +22,6 @@ public class PessoaAdapter extends BaseAdapter {
 
     public PessoaAdapter(Context context) {
         this.context = context;
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNomeCompleto("Arthur Oliveira Rodrigues");
-        pessoa.setEstadoCivil(EnumEstadoCivil.CASADO);
-        pessoa.setNacionalidade("Brasileiro");
-        pessoa.setProfissao("Programador");
-        pessoa.setCpfCnpj("70302652116");
-
-        PessoaDAO.save(pessoa);
 
         pessoas = PessoaDAO.listar();
     }

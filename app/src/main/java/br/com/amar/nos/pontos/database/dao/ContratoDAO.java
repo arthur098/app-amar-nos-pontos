@@ -13,7 +13,6 @@ public class ContratoDAO {
 
     public static List<Contrato> listar() {
         return contratos;
-        
     }
 
     public static void save(Contrato contrato) {
@@ -21,9 +20,9 @@ public class ContratoDAO {
         contratos.add(contrato);
     }
 
-    public static void update(Contrato Contrato) {
-        Contrato found = contratos.stream().filter(p -> p.getId().equals(Contrato.getId())).findFirst().orElse(null);
-        contratos.set(contratos.indexOf(found), Contrato);
+    public static void update(Contrato contrato) {
+        Contrato found = contratos.stream().filter(p -> p.getId().equals(contrato.getId())).findFirst().orElse(null);
+        contratos.set(contratos.indexOf(found), contrato);
     }
 
     public static void excluir(Long id) {

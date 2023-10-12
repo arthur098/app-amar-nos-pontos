@@ -18,4 +18,6 @@
     <string name="valor_pago">Valor Pago</string>
     <string name="nova_pessoa">Nova Pessoa</string>
     <string name="logo_amar">Logo Amar</string>
+    <string name="botao_mais_opcoes">Botão mais opções</string>
+    <string name="excluir">Excluir</string>
 </resources>

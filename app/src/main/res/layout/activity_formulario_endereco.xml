@@ -16,7 +16,7 @@
 
             <ImageView android:layout_width="match_parent"
                        android:layout_height="match_parent"
-                       android:contentDescription="logo amar"/>
+                       android:contentDescription="@string/logo_amar"/>
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

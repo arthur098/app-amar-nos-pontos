@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:tools="http://schemas.android.com/tools">
@@ -16,4 +16,13 @@
               android:shadowRadius="2"
               android:padding="10dp"
               tools:text="Nome"/>
+
+<!--    <ImageButton android:id="@+id/item_pessoa_button_mais"-->
+<!--                 android:layout_width="40dp"-->
+<!--                 android:layout_height="40dp"-->
+<!--                 android:layout_marginTop="6.15dp"-->
+<!--                 android:layout_toEndOf="@id/item_pessoa_nome"-->
+<!--                 android:background="@drawable/ic_action_more_vertical"-->
+<!--                 android:foregroundTint="@color/white"-->
+<!--                 android:contentDescription="@string/botao_mais_opcoes"/>-->
 </LinearLayout>
