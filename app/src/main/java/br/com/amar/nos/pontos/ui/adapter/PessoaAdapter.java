@@ -5,12 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.database.dao.PessoaDAO;
-import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
 import br.com.amar.nos.pontos.model.Pessoa;
 
 import java.util.List;
@@ -62,4 +59,8 @@ public class PessoaAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void excluir(Long id) {
+        PessoaDAO.excluir(id);
+        atualizaPessoa();
+    }
 }

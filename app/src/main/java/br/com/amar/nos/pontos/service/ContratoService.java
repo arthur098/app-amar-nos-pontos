@@ -1,6 +1,8 @@
 package br.com.amar.nos.pontos.service;
 
 import android.os.Environment;
+import br.com.amar.nos.pontos.model.Contrato;
+import br.com.amar.nos.pontos.model.Pessoa;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -17,7 +19,7 @@ public class ContratoService {
     private static final int ALIGN_CENTER = Paragraph.ALIGN_CENTER;
     private static final int ALIGN_JUSTIFIED = Paragraph.ALIGN_JUSTIFIED;
 
-    public void createPdf() {
+    public void createPdf(Contrato contrato) {
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/contrato.pdf");
         Document document = new Document();
         try {
@@ -31,7 +33,20 @@ public class ContratoService {
 
             addParagraph(document, "DAS PARTES", fonteBold, ALIGN_LEFT);
 
-            addParagraph(document, "CONTRATANTE: ", fonteBold, ALIGN_LEFT);
+            Pessoa pessoa = contrato.getPessoa();
+            StringBuilder contratante = new StringBuilder("CONTRATANTE: ")
+                    .append(pessoa.getNomeCompleto())
+                    .append(", ")
+                    .append(pessoa.getNacionalidade())
+                    .append(", ")
+                    .append(pessoa.getEstadoCivil().getDescricao())
+                    .append(", ")
+                    .append(pessoa.getProfissao())
+                    .append(", ")
+                    .append(pessoa.getCpfCnpj())
+                    .append(", residente e domiciliado(a) na ")
+                    .append(contrato.getEndereco().getEnderecoFormatado());
+            addParagraph(document, contratante.toString(), fonteBold, ALIGN_LEFT);
 
             addParagraphChunks(document, ALIGN_LEFT, new Chunk("CONTRATADA: ", fonteBold),
                     new Chunk("Amanda Rodrigues Piaza e silva, brasileira, casada, bordadeira, inscrita no CPF sob o nº 701.425.381-67, residente e domiciliada na Rua do Salmão, quadra 20, lote 25, Jardim Atlântico, em Goiânia - GO.", fonte));

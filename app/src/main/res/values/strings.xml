@@ -20,4 +20,8 @@
     <string name="logo_amar">Logo Amar</string>
     <string name="botao_mais_opcoes">Botão mais opções</string>
     <string name="excluir">Excluir</string>
+    <string name="enderecos">Enderecos</string>
+    <string name="novo_endereco">Novo Endereço</string>
+    <string name="gerar_contrato">Gerar Contrato</string>
+    <string name="descricao_produto">Descrição Produto</string>
 </resources>

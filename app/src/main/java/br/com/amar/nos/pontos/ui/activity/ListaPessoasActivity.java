@@ -7,7 +7,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,20 +65,27 @@ public class ListaPessoasActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
         registerForContextMenu(viewBind.listaPessoas);
+
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        Pessoa pessoa = pessoaAdapter.getItem(menuInfo.position);
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Pessoa pessoa = pessoaAdapter.getItem(menuInfo.position);
         if(item.getItemId() == R.id.activity_lista_pessoas_menu_remover) {
             new AlertDialog.Builder(ListaPessoasActivity.this)
                     .setTitle("Remover pessoa")
                     .setMessage("Tem certeza que deseja excluir essa pessoa?")
-                    .setPositiveButton("Sim", ((dialogInterface, i) -> Toast.makeText(this, "Excluido", Toast.LENGTH_SHORT).show()))
+                    .setPositiveButton("Sim", ((dialogInterface, i) -> this.pessoaAdapter.excluir(pessoa.getId())))
                     .setNegativeButton("Não", null)
                     .show();
+        } else if(item.getItemId() == R.id.activity_lista_pessoas_menu_lista_enderecos) {
+            Intent intent = new Intent(ListaPessoasActivity.this, ListaEnderecosActivity.class);
+            intent.putExtra("idPessoa", pessoa.getId());
+
+            startActivity(intent);
         }
         return super.onContextItemSelected(item);
     }

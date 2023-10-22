@@ -1,5 +1,6 @@
 package br.com.amar.nos.pontos.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Ignore;
 
 public class Endereco {
@@ -79,7 +80,13 @@ public class Endereco {
     }
 
     @Ignore
-    public String getEnderecoFormatado() {
+    public String getEnderecoFormatado() {;
         return String.format("%s, %s, %s, %s, %s - %s", logradouro, numero, complemento, bairro, municipio, estado);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return logradouro;
     }
 }

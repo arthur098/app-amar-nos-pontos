@@ -1,5 +1,6 @@
 package br.com.amar.nos.pontos.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.databinding.ActivityFormularioPessoaBinding;
 import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
 import br.com.amar.nos.pontos.model.Pessoa;
+import br.com.amar.nos.pontos.ui.dialog.SelecionarEnderecoDialog;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
@@ -45,13 +47,13 @@ public class FormularioPessoaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.activity_formulario_menu_salvar) {
-            montaPessoa();
-            if(pessoa.getId() == null) {
-                PessoaDAO.save(pessoa);
-            } else {
-                PessoaDAO.update(pessoa);
-            }
-            finish();
+//            montaPessoa();
+//            if(pessoa.getId() == null) {
+//                PessoaDAO.save(pessoa);
+//            } else {
+//                PessoaDAO.update(pessoa);
+//            }
+//            finish();
         }
         return super.onOptionsItemSelected(item);
     }

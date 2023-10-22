@@ -36,4 +36,8 @@ public class ContratoDAO {
     public static List<Contrato> buscarPorIdPessoa(Long idPessoa) {
         return contratos.stream().filter(Contrato -> Contrato.getPessoa().getId().equals(idPessoa)).collect(Collectors.toList());
     }
+
+    public static void excluirPorIdPessoa(Long idPessoa) {
+        contratos.removeIf(contrato -> contrato.getPessoa().getId().equals(idPessoa));
+    }
 }

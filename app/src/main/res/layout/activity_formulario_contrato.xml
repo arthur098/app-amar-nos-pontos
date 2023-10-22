@@ -26,7 +26,14 @@
     <EditText android:id="@+id/activity_formulario_contrato_produto"
               android:hint="@string/produto"
               android:layout_width="match_parent"
-              android:inputType="textCapWords"
+              android:inputType="textCapSentences"
+              android:layout_margin="8dp"
+              android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/activity_formulario_contrato_descricao_produto"
+              android:hint="@string/descricao_produto"
+              android:layout_width="match_parent"
+              android:inputType="textCapSentences"
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
@@ -34,7 +41,6 @@
               android:hint="@string/valor_pago"
               android:layout_width="match_parent"
               android:inputType="numberDecimal"
-
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
@@ -42,7 +48,6 @@
               android:hint="@string/valor"
               android:layout_width="match_parent"
               android:inputType="numberDecimal"
-
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 
@@ -53,8 +58,7 @@
     <EditText android:id="@+id/activity_formulario_contrato_observacao"
               android:hint="@string/observacao"
               android:layout_width="match_parent"
-              android:inputType="textCapWords"
-
+              android:inputType="textCapSentences"
               android:layout_margin="8dp"
               android:layout_height="wrap_content"/>
 

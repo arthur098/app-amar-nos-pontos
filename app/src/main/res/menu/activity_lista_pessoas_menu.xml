@@ -3,4 +3,7 @@
 
     <item android:id="@+id/activity_lista_pessoas_menu_remover"
           android:title="@string/excluir"/>
+
+    <item android:id="@+id/activity_lista_pessoas_menu_lista_enderecos"
+          android:title="@string/enderecos"/>
 </menu>

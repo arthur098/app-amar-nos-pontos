@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 //@Entity
 public class Contrato {
 
-
     private Long id;
 
     private String produto;
+
+    private String descricaoProduto;
 
     private EnumStatusContrato status;
 
@@ -23,6 +24,9 @@ public class Contrato {
     private String observacao;
     @Ignore
     private Pessoa pessoa;
+
+    @Ignore
+    private Endereco endereco;
 
     public Long getId() {
         return id;
@@ -38,6 +42,14 @@ public class Contrato {
 
     public void setProduto(String produto) {
         this.produto = produto;
+    }
+
+    public String getDescricaoProduto() {
+        return descricaoProduto;
+    }
+
+    public void setDescricaoProduto(String descricaoProduto) {
+        this.descricaoProduto = descricaoProduto;
     }
 
     public EnumStatusContrato getStatus() {
@@ -78,5 +90,13 @@ public class Contrato {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

@@ -28,6 +28,8 @@ public class PessoaDAO {
 
     public static void excluir(Long id) {
         pessoas.removeIf(pessoa -> pessoa.getId().equals(id));
+        EnderecoDAO.excluirPorIdPessoa(id);
+        ContratoDAO.excluirPorIdPessoa(id);
     }
 
     public static Pessoa buscarPorId(Long idPessoa) {
