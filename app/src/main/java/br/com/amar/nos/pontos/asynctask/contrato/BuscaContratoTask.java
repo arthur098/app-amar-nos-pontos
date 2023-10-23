@@ -8,16 +8,18 @@ public class BuscaContratoTask extends AsyncTask<Long, Void, Contrato> {
 
     private final Long idContrato;
     private final Long idPessoa;
+    private final ContratoDAO dao;
     private BuscaContratoListener listener;
-    public BuscaContratoTask(Long idContrato, Long idPessoa,BuscaContratoListener listener) {
+    public BuscaContratoTask(Long idContrato, Long idPessoa, ContratoDAO dao, BuscaContratoListener listener) {
         this.idContrato = idContrato;
         this.idPessoa = idPessoa;
         this.listener = listener;
+        this.dao = dao;
     }
 
     @Override
     protected Contrato doInBackground(Long... longs) {
-        return ContratoDAO.buscarPorId(idContrato);
+        return dao.findById(idContrato);
     }
 
     @Override

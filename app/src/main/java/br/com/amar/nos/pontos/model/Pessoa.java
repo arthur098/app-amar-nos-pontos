@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Entity
 public class Pessoa implements Serializable {
 
-
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
@@ -66,5 +65,4 @@ public class Pessoa implements Serializable {
     public void setCpfCnpj(String cpfCnpj) {
         this.cpfCnpj = cpfCnpj;
     }
-
 }

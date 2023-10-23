@@ -14,13 +14,14 @@ import java.util.List;
 
 public class PessoaAdapter extends BaseAdapter {
 
-    private static List<Pessoa> pessoas;
+    private final PessoaDAO pessoaDAO;
+    private List<Pessoa> pessoas;
     private final Context context;
 
-    public PessoaAdapter(Context context) {
+    public PessoaAdapter(Context context, PessoaDAO pessoaDAO) {
         this.context = context;
-
-        pessoas = PessoaDAO.listar();
+        this.pessoas = pessoaDAO.list();
+        this.pessoaDAO = pessoaDAO;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PessoaAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         View view = getView(viewGroup);
 
-        Pessoa pessoa = pessoas.get(i);
+        Pessoa pessoa = this.pessoas.get(i);
         TextView textViewNome = view.findViewById(R.id.item_pessoa_nome);
 
         textViewNome.setText(pessoa.getNomeCompleto());
@@ -55,12 +56,12 @@ public class PessoaAdapter extends BaseAdapter {
     }
 
     public void atualizaPessoa() {
-        pessoas = PessoaDAO.listar();
+        this.pessoas = this.pessoaDAO.list();
         this.notifyDataSetChanged();
     }
 
     public void excluir(Long id) {
-        PessoaDAO.excluir(id);
+        this.pessoaDAO.delete(this.pessoaDAO.findById(id));
         atualizaPessoa();
     }
 }

@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.asynctask.endereco.BuscaEnderecoAsyncTask;
 import br.com.amar.nos.pontos.asynctask.endereco.SalvaEnderecoAsyncTask;
+import br.com.amar.nos.pontos.database.AmarDatabase;
+import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.databinding.ActivityFormularioEnderecoBinding;
 import br.com.amar.nos.pontos.model.Endereco;
 
@@ -17,8 +19,10 @@ public class FormularioEnderecoActivity extends AppCompatActivity {
 
     private ActivityFormularioEnderecoBinding viewBind;
 
+
     private Long idPessoa;
     private Long idEndereco;
+    private EnderecoDAO enderecoDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class FormularioEnderecoActivity extends AppCompatActivity {
         viewBind = ActivityFormularioEnderecoBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+
+        AmarDatabase db = AmarDatabase.getInstance(this);
+        enderecoDAO = db.enderecoDAO();
 
         Intent intent = getIntent();
         if(intent.hasExtra("idPessoa")) {
@@ -45,7 +52,7 @@ public class FormularioEnderecoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.activity_formulario_menu_salvar) {
-            new BuscaEnderecoAsyncTask(idEndereco, e -> new SalvaEnderecoAsyncTask(montaEndereco(e), this::finish).execute()).execute();
+            new BuscaEnderecoAsyncTask(idEndereco, enderecoDAO, e -> new SalvaEnderecoAsyncTask(montaEndereco(e), enderecoDAO, this::finish).execute()).execute();
         }
         return super.onOptionsItemSelected(item);
     }

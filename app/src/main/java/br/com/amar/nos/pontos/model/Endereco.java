@@ -1,10 +1,18 @@
 package br.com.amar.nos.pontos.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(foreignKeys = {@ForeignKey(entity = Pessoa.class,
+            parentColumns = "id",
+            childColumns = "idPessoa",
+            onDelete = ForeignKey.CASCADE)})
 public class Endereco {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
     private String bairro;
     private String logradouro;

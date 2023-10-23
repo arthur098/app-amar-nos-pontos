@@ -7,20 +7,18 @@ import br.com.amar.nos.pontos.model.Contrato;
 public class SalvaContratoAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private final Contrato contrato;
+    private final ContratoDAO contratoDAO;
     private SalvaContratoListener listener;
 
-    public SalvaContratoAsyncTask(Contrato contrato, SalvaContratoListener listener) {
+    public SalvaContratoAsyncTask(Contrato contrato, ContratoDAO dao, SalvaContratoListener listener) {
         this.contrato = contrato;
         this.listener = listener;
+        this.contratoDAO = dao;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        if(contrato.getId() == null) {
-            ContratoDAO.save(contrato);
-        } else {
-            ContratoDAO.update(contrato);
-        }
+        contratoDAO.save(contrato);
         return null;
     }
 

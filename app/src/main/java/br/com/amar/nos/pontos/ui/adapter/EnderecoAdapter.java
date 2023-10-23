@@ -17,10 +17,12 @@ public class EnderecoAdapter extends BaseAdapter {
     private final ArrayList<Endereco> enderecos = new ArrayList<>();
     private final Context context;
     private final Long idPessoa;
+    private final EnderecoDAO dao;
 
-    public EnderecoAdapter(Context context, Long idPessoa) {
+    public EnderecoAdapter(Context context, Long idPessoa, EnderecoDAO dao) {
         this.context = context;
         this.idPessoa = idPessoa;
+        this.dao = dao;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class EnderecoAdapter extends BaseAdapter {
 
     public void atualizarEnderecos() {
         enderecos.clear();
-        enderecos.addAll(EnderecoDAO.buscarPorIdPessoa(idPessoa));
+        enderecos.addAll(this.dao.listByIdPessoa(idPessoa));
         this.notifyDataSetChanged();
     }
 }

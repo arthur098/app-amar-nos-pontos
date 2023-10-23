@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.database.AmarDatabase;
 import br.com.amar.nos.pontos.database.dao.ContratoDAO;
 import br.com.amar.nos.pontos.databinding.ActivityListaContratoBinding;
 import br.com.amar.nos.pontos.model.Contrato;
@@ -26,6 +27,7 @@ public class ListaContratoActivity extends AppCompatActivity {
     private ActivityListaContratoBinding viewBind;
 
     private Long idPessoa;
+    private ContratoDAO contratoDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +35,11 @@ public class ListaContratoActivity extends AppCompatActivity {
         viewBind = ActivityListaContratoBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+        AmarDatabase db = AmarDatabase.getInstance(this);
+        contratoDAO = db.contratoDAO();
 
         idPessoa = getIntent().getLongExtra("idPessoa", 0);
-        List<Contrato> contratos = ContratoDAO.buscarPorIdPessoa(idPessoa);
+        List<Contrato> contratos = contratoDAO.findByIdPessoa(idPessoa);
 
         setListViewAdapter(contratos);
         setEventFloatingActionButtonAddContrato();
@@ -48,7 +52,7 @@ public class ListaContratoActivity extends AppCompatActivity {
     }
 
     public void setListViewAdapter(List<Contrato> contratos) {
-        this.contratoAdapter = new ContratoAdapter(ListaContratoActivity.this, contratos);
+        this.contratoAdapter = new ContratoAdapter(ListaContratoActivity.this, this.contratoDAO, contratos);
         viewBind.listaContratos.setAdapter(contratoAdapter);
         viewBind.listaContratos.setOnItemClickListener(((adapterView, view, i, l) -> {
             Intent intent = new Intent(ListaContratoActivity.this, FormularioContratoActivity.class);

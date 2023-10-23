@@ -1,14 +1,22 @@
 package br.com.amar.nos.pontos.model;
 
-
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 import br.com.amar.nos.pontos.enumerator.EnumStatusContrato;
 
-import java.math.BigDecimal;
-
-//@Entity
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Endereco.class,
+        parentColumns = "id",
+        childColumns = "idEndereco"),
+        @ForeignKey(entity = Pessoa.class,
+        parentColumns = "id",
+        childColumns = "idPessoa")
+})
 public class Contrato {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
     private String produto;
@@ -17,11 +25,16 @@ public class Contrato {
 
     private EnumStatusContrato status;
 
-    private BigDecimal valor;
+    private Double valor;
 
-    private BigDecimal valorPago;
+    private Double valorPago;
 
     private String observacao;
+
+    private Long idPessoa;
+
+    private Long idEndereco;
+
     @Ignore
     private Pessoa pessoa;
 
@@ -60,19 +73,19 @@ public class Contrato {
         this.status = status;
     }
 
-    public BigDecimal getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public BigDecimal getValorPago() {
+    public Double getValorPago() {
         return valorPago;
     }
 
-    public void setValorPago(BigDecimal valorPago) {
+    public void setValorPago(Double valorPago) {
         this.valorPago = valorPago;
     }
 
@@ -82,6 +95,22 @@ public class Contrato {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public Long getIdPessoa() {
+        return idPessoa;
+    }
+
+    public void setIdPessoa(Long idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    public Long getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(Long idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
     public Pessoa getPessoa() {

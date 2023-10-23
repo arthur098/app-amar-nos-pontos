@@ -1,38 +1,23 @@
 package br.com.amar.nos.pontos.database.dao;
 
+import androidx.room.*;
 import br.com.amar.nos.pontos.model.Pessoa;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PessoaDAO {
 
-    private static Long lastId = 1L;
-    private static final List<Pessoa> pessoas = new ArrayList<>();
+@Dao
+public interface PessoaDAO {
 
-    public static List<Pessoa> listar() {
-        return pessoas;
-    }
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void save(Pessoa pessoa);
 
-    public static void save(Pessoa... pessoaAddList) {
-        for (Pessoa pessoa:pessoaAddList) {
-            pessoa.setId(++lastId);
-            PessoaDAO.pessoas.add(pessoa);
-        }
-    }
+    @Delete
+    void delete(Pessoa pessoa);
 
-    public static void update(Pessoa pessoa) {
-        Pessoa found = pessoas.stream().filter(p -> p.getId().equals(pessoa.getId())).findFirst().orElse(null);
-        pessoas.set(pessoas.indexOf(found), pessoa);
-    }
+    @Query("SELECT p.* FROM Pessoa p WHERE p.id = :idPessoa")
+    Pessoa findById(Long idPessoa);
 
-    public static void excluir(Long id) {
-        pessoas.removeIf(pessoa -> pessoa.getId().equals(id));
-        EnderecoDAO.excluirPorIdPessoa(id);
-        ContratoDAO.excluirPorIdPessoa(id);
-    }
-
-    public static Pessoa buscarPorId(Long idPessoa) {
-        return pessoas.stream().filter(pessoa -> pessoa.getId().equals(idPessoa)).findFirst().orElse(null);
-    }
+    @Query("SELECT p.* FROM Pessoa p")
+    List<Pessoa> list();
 }

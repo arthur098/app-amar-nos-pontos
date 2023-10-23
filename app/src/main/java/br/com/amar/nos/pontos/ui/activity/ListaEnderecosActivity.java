@@ -6,6 +6,8 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.database.AmarDatabase;
+import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.databinding.ActivityListaEnderecosBinding;
 import br.com.amar.nos.pontos.ui.adapter.EnderecoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,6 +17,7 @@ public class ListaEnderecosActivity extends AppCompatActivity {
     private ActivityListaEnderecosBinding viewBind;
     private Long idPessoa = null;
     private EnderecoAdapter adapter;
+    private EnderecoDAO enderecoDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,6 +25,10 @@ public class ListaEnderecosActivity extends AppCompatActivity {
         viewBind = ActivityListaEnderecosBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+
+        AmarDatabase db = AmarDatabase.getInstance(this);
+        enderecoDAO = db.enderecoDAO();
+
         Intent intent = getIntent();
         if(intent.hasExtra("idPessoa")) {
             this.idPessoa = intent.getLongExtra("idPessoa", 0);
@@ -46,7 +53,7 @@ public class ListaEnderecosActivity extends AppCompatActivity {
 
     public void setAdapter() {
         if(idPessoa != null && idPessoa > 0) {
-            adapter = new EnderecoAdapter(ListaEnderecosActivity.this, idPessoa);
+            adapter = new EnderecoAdapter(ListaEnderecosActivity.this, idPessoa, enderecoDAO);
             ListView listaEndereco = findViewById(R.id.lista_enderecos);
             listaEndereco.setAdapter(adapter);
             listaEndereco.setOnItemClickListener((adapterView, view, i, l) -> {

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.database.AmarDatabase;
 import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
 import br.com.amar.nos.pontos.model.Pessoa;
@@ -18,10 +19,11 @@ import br.com.amar.nos.pontos.ui.adapter.PessoaAdapter;
 import br.com.amar.nos.pontos.databinding.ActivityListaPessoasBinding;
 
 public class ListaPessoasActivity extends AppCompatActivity {
-
-    PessoaAdapter pessoaAdapter = new PessoaAdapter(this);
     private ActivityListaPessoasBinding viewBind;
 
+    private final AmarDatabase db = AmarDatabase.getInstance(this);
+    private final PessoaDAO pessoaDAO = db.pessoaDAO();
+    PessoaAdapter pessoaAdapter = new PessoaAdapter(this, pessoaDAO);
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,8 @@ public class ListaPessoasActivity extends AppCompatActivity {
         pessoa2.setProfissao("Programador");
         pessoa2.setCpfCnpj("11122233345");
 
-        PessoaDAO.save(pessoa, pessoa2);
+        pessoaDAO.save(pessoa);
+        pessoaDAO.save(pessoa2);
 
         viewBind.fab.setOnClickListener((view) -> startActivity(new Intent(ListaPessoasActivity.this, FormularioPessoaActivity.class)));
 

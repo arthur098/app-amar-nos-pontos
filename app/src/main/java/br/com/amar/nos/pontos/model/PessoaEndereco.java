@@ -1,14 +1,17 @@
 package br.com.amar.nos.pontos.model;
 
 
+import androidx.room.Embedded;
+import androidx.room.Relation;
+
 import java.util.List;
 
 public class PessoaEndereco {
-//    @Embedded
+    @Embedded
     private Pessoa pessoa;
 
-//    @Relation(parentColumn = "id",
-//            entityColumn = "idPessoa")
+    @Relation(parentColumn = "id",
+            entityColumn = "idPessoa")
     private List<Endereco> enderecos;
 
     public Pessoa getPessoa() {

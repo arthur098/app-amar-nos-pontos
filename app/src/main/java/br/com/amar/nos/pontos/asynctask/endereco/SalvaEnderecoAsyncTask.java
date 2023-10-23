@@ -7,21 +7,19 @@ import br.com.amar.nos.pontos.model.Endereco;
 public class SalvaEnderecoAsyncTask extends AsyncTask<Void, Void, Void> {
 
     private final Endereco endereco;
+    private final EnderecoDAO dao;
 
     private SalvaEnderecoListener salvaEnderecoListener;
 
-    public SalvaEnderecoAsyncTask(Endereco endereco, SalvaEnderecoListener listener) {
+    public SalvaEnderecoAsyncTask(Endereco endereco, EnderecoDAO dao, SalvaEnderecoListener listener) {
         this.endereco = endereco;
         this.salvaEnderecoListener = listener;
+        this.dao = dao;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        if (this.endereco.getId() == null || this.endereco.getId() == 0) {
-            EnderecoDAO.save(this.endereco);
-        } else {
-            EnderecoDAO.update(this.endereco);
-        }
+        dao.save(endereco);
         this.salvaEnderecoListener.onComplete();
         return null;
     }

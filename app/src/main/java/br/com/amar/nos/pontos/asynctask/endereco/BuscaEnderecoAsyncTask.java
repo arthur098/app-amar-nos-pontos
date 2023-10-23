@@ -7,16 +7,18 @@ import br.com.amar.nos.pontos.model.Endereco;
 public class BuscaEnderecoAsyncTask extends AsyncTask<Long, Integer, Endereco> {
 
     private final Long idEndereco;
+    private final EnderecoDAO dao;
     private EnderecoBuscadoListener listener;
 
-    public BuscaEnderecoAsyncTask(Long idEndereco, EnderecoBuscadoListener listener) {
+    public BuscaEnderecoAsyncTask(Long idEndereco, EnderecoDAO dao, EnderecoBuscadoListener listener) {
         this.idEndereco = idEndereco;
         this.listener = listener;
+        this.dao = dao;
     }
 
     @Override
     protected Endereco doInBackground(Long... Long) {
-        Endereco endereco = EnderecoDAO.buscarPorId(idEndereco);
+        Endereco endereco = dao.findById(idEndereco);
         return endereco != null ? endereco : new Endereco();
     }
 

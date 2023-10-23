@@ -14,12 +14,14 @@ import java.util.List;
 
 public class ContratoAdapter extends BaseAdapter {
 
+    private final ContratoDAO dao;
     private List<Contrato> contratos;
     private final Context context;
 
-    public ContratoAdapter(Context context, List<Contrato> contratos) {
+    public ContratoAdapter(Context context, ContratoDAO dao, List<Contrato> contratos) {
         this.context = context;
         this.contratos = contratos;
+        this.dao = dao;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ContratoAdapter extends BaseAdapter {
     }
 
     public void atualizaContratos(Long idPessoa) {
-        this.contratos = ContratoDAO.buscarPorIdPessoa(idPessoa);
+        this.contratos = dao.findByIdPessoa(idPessoa);
         this.notifyDataSetChanged();
     }
 }
