@@ -1,33 +1,26 @@
 package br.com.amar.nos.pontos.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.database.AmarDatabase;
 import br.com.amar.nos.pontos.database.dao.ContratoDAO;
+import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
+import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.databinding.ActivityListaContratoBinding;
-import br.com.amar.nos.pontos.model.Contrato;
-import br.com.amar.nos.pontos.service.ContratoService;
-import br.com.amar.nos.pontos.ui.adapter.ContratoAdapter;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
+import br.com.amar.nos.pontos.ui.view.ListaContratoView;
 
 public class ListaContratoActivity extends AppCompatActivity {
 
-    private final ContratoService contratoService = new ContratoService();
-    private ContratoAdapter contratoAdapter;
     private ActivityListaContratoBinding viewBind;
 
-    private Long idPessoa;
-    private ContratoDAO contratoDAO;
+    private ListaContratoView view;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,49 +28,31 @@ public class ListaContratoActivity extends AppCompatActivity {
         viewBind = ActivityListaContratoBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+        setTitle("Contratos");
+
+        ActionBar supportActionBar = this.getSupportActionBar();
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+
+        Long idPessoa = getIntent().getLongExtra("idPessoa", 0);
+
         AmarDatabase db = AmarDatabase.getInstance(this);
-        contratoDAO = db.contratoDAO();
+        ContratoDAO contratoDAO = db.contratoDAO();
+        PessoaDAO pessoaDAO = db.pessoaDAO();
+        EnderecoDAO enderecoDAO = db.enderecoDAO();
 
-        idPessoa = getIntent().getLongExtra("idPessoa", 0);
-        List<Contrato> contratos = contratoDAO.findByIdPessoa(idPessoa);
-
-        setListViewAdapter(contratos);
-        setEventFloatingActionButtonAddContrato();
+        view = new ListaContratoView(contratoDAO, pessoaDAO, enderecoDAO, idPessoa);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        this.contratoAdapter.atualizaContratos(idPessoa);
-    }
-
-    public void setListViewAdapter(List<Contrato> contratos) {
-        this.contratoAdapter = new ContratoAdapter(ListaContratoActivity.this, this.contratoDAO, contratos);
-        viewBind.listaContratos.setAdapter(contratoAdapter);
-        viewBind.listaContratos.setOnItemClickListener(((adapterView, view, i, l) -> {
-            Intent intent = new Intent(ListaContratoActivity.this, FormularioContratoActivity.class);
-            intent.putExtra("idContrato", contratoAdapter.getItemId(i));
-            startActivity(intent);
-        }));
+        this.view.initAdapter(ListaContratoActivity.this, viewBind);
         registerForContextMenu(viewBind.listaContratos);
-    }
-
-    private void setEventFloatingActionButtonAddContrato() {
-        viewBind.activityListaContratoAdd.setOnClickListener((view) -> {
-            Intent intent = new Intent(ListaContratoActivity.this, FormularioContratoActivity.class);
-            intent.putExtra("idPessoa", idPessoa);
-            startActivity(intent);
-        });
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        if(item.getItemId() == R.id.activity_lista_contrato_menu_btn_gerar_contrato) {
-            Contrato contrato = contratoAdapter.getItem(menuInfo.position);
-            this.contratoService.createPdf(contrato);
-            Snackbar.make(item.getActionView(), "Contrato gerado", Snackbar.LENGTH_LONG).show();
-        }
+        this.view.contextItemSelected(ListaContratoActivity.this, item);
         return super.onContextItemSelected(item);
     }
 
@@ -87,4 +62,11 @@ public class ListaContratoActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.activity_lista_contrato_menu, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

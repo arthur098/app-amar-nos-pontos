@@ -1,29 +1,26 @@
 package br.com.amar.nos.pontos.ui.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.database.AmarDatabase;
-import br.com.amar.nos.pontos.database.dao.PessoaDAO;
-import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
-import br.com.amar.nos.pontos.model.Pessoa;
-import br.com.amar.nos.pontos.ui.adapter.PessoaAdapter;
+import br.com.amar.nos.pontos.database.dao.ContratoDAO;
+import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.databinding.ActivityListaPessoasBinding;
+import br.com.amar.nos.pontos.ui.view.ListaPessoaView;
 
 public class ListaPessoasActivity extends AppCompatActivity {
     private ActivityListaPessoasBinding viewBind;
+    private ContratoDAO contratoDAO;
+    private EnderecoDAO enderecoDAO;
+    private ListaPessoaView view;
 
-    private final AmarDatabase db = AmarDatabase.getInstance(this);
-    private final PessoaDAO pessoaDAO = db.pessoaDAO();
-    PessoaAdapter pessoaAdapter = new PessoaAdapter(this, pessoaDAO);
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,64 +29,25 @@ public class ListaPessoasActivity extends AppCompatActivity {
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
 
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNomeCompleto("Arthur Oliveira Rodrigues");
-        pessoa.setEstadoCivil(EnumEstadoCivil.CASADO);
-        pessoa.setNacionalidade("Brasileiro");
-        pessoa.setProfissao("Programador");
-        pessoa.setCpfCnpj("70302652116");
-
-        Pessoa pessoa2 = new Pessoa();
-        pessoa2.setNomeCompleto("Matheus Oliveira Rodrigues");
-        pessoa2.setEstadoCivil(EnumEstadoCivil.SOLTEIRO);
-        pessoa2.setNacionalidade("Brasileiro");
-        pessoa2.setProfissao("Programador");
-        pessoa2.setCpfCnpj("11122233345");
-
-        pessoaDAO.save(pessoa);
-        pessoaDAO.save(pessoa2);
+        AmarDatabase db = AmarDatabase.getInstance(this);
+        this.contratoDAO = db.contratoDAO();
+        this.enderecoDAO = db.enderecoDAO();
+        this.view = new ListaPessoaView(ListaPessoasActivity.this, db.pessoaDAO(), viewBind);
 
         viewBind.fab.setOnClickListener((view) -> startActivity(new Intent(ListaPessoasActivity.this, FormularioPessoaActivity.class)));
 
-        setListViewPessoas();
     }
 
     @Override
     protected void onResume() {
-        pessoaAdapter.atualizaPessoa();
-        super.onResume();
-    }
-
-    private void setListViewPessoas() {
-        viewBind.listaPessoas.setAdapter(pessoaAdapter);
-        viewBind.listaPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
-            Intent intent = new Intent(ListaPessoasActivity.this, ListaContratoActivity.class);
-            intent.putExtra("idPessoa", pessoaAdapter.getItemId(i));
-
-            startActivity(intent);
-        });
-
+        this.view.setAdapterList();
         registerForContextMenu(viewBind.listaPessoas);
-
+        super.onResume();
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Pessoa pessoa = pessoaAdapter.getItem(menuInfo.position);
-        if(item.getItemId() == R.id.activity_lista_pessoas_menu_remover) {
-            new AlertDialog.Builder(ListaPessoasActivity.this)
-                    .setTitle("Remover pessoa")
-                    .setMessage("Tem certeza que deseja excluir essa pessoa?")
-                    .setPositiveButton("Sim", ((dialogInterface, i) -> this.pessoaAdapter.excluir(pessoa.getId())))
-                    .setNegativeButton("Não", null)
-                    .show();
-        } else if(item.getItemId() == R.id.activity_lista_pessoas_menu_lista_enderecos) {
-            Intent intent = new Intent(ListaPessoasActivity.this, ListaEnderecosActivity.class);
-            intent.putExtra("idPessoa", pessoa.getId());
-
-            startActivity(intent);
-        }
+        this.view.onContextConfig(item, ListaPessoasActivity.this, view, contratoDAO, enderecoDAO);
         return super.onContextItemSelected(item);
     }
 

@@ -7,21 +7,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.asynctask.endereco.BuscaEnderecoPorIdPessoaTask;
 import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.model.Endereco;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class EnderecoAdapter extends BaseAdapter {
 
-    private final ArrayList<Endereco> enderecos = new ArrayList<>();
+    private final List<Endereco> enderecos;
     private final Context context;
     private final Long idPessoa;
     private final EnderecoDAO dao;
 
-    public EnderecoAdapter(Context context, Long idPessoa, EnderecoDAO dao) {
+    public EnderecoAdapter(Context context, Long idPessoa, List<Endereco> enderecoList, EnderecoDAO dao) {
         this.context = context;
         this.idPessoa = idPessoa;
+        this.enderecos = enderecoList;
         this.dao = dao;
     }
 
@@ -59,7 +61,9 @@ public class EnderecoAdapter extends BaseAdapter {
 
     public void atualizarEnderecos() {
         enderecos.clear();
-        enderecos.addAll(this.dao.listByIdPessoa(idPessoa));
-        this.notifyDataSetChanged();
+        new BuscaEnderecoPorIdPessoaTask(this.idPessoa, this.dao, (enderecoList -> {
+            enderecos.addAll(enderecoList);
+            this.notifyDataSetChanged();
+        })).execute();
     }
 }

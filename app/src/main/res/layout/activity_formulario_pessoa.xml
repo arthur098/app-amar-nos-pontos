@@ -17,12 +17,6 @@
                     android:layout_width="match_parent"
                     android:background="@color/color_main"
                     android:layout_height="?attr/actionBarSize">
-
-                <ImageView android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:contentDescription="logo amar"
-
-                />
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -55,19 +49,7 @@
         <EditText android:id="@+id/activity_formulario_pessoa_cpf_cnpj"
                   android:hint="@string/cpf_cnpj"
                   android:layout_width="match_parent"
-                  android:inputType="textCapWords"
-                  android:layout_margin="8dp"
-                  android:layout_height="wrap_content"/>
-
-        <View android:layout_width="match_parent"
-              android:layout_height="2px"
-              android:background="@android:color/darker_gray"/>
-
-        <EditText android:id="@+id/activity_formulario_contrato_valor"
-                  android:hint="@string/valor"
-                  android:layout_width="match_parent"
                   android:inputType="numberDecimal"
-
                   android:layout_margin="8dp"
                   android:layout_height="wrap_content"/>
     </LinearLayout>

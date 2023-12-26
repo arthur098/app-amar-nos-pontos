@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">amar-nos-pontos</string>
+    <string name="app_name">Amar Nós e Pontos</string>
     <string name="nome_completo">Nome Completo</string>
     <string name="nacionalidade">Nacionalidade</string>
     <string name="estado_civil">Estado Civil</string>
@@ -24,4 +24,6 @@
     <string name="novo_endereco">Novo Endereço</string>
     <string name="gerar_contrato">Gerar Contrato</string>
     <string name="descricao_produto">Descrição Produto</string>
+    <string name="novo_contrato">Novo Contrato</string>
+    <string name="editar">Editar</string>
 </resources>

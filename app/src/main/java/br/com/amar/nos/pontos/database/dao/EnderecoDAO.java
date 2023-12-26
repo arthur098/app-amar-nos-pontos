@@ -13,7 +13,7 @@ public interface EnderecoDAO {
     void save(Endereco endereco);
 
     @Delete
-    void delete(Endereco endereco);
+    void delete(Endereco... endereco);
 
     @Query("SELECT e.* FROM Endereco e WHERE e.id = :idEndereco")
     Endereco findById(Long idEndereco);

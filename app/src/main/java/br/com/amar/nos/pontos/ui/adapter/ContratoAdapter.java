@@ -14,14 +14,12 @@ import java.util.List;
 
 public class ContratoAdapter extends BaseAdapter {
 
-    private final ContratoDAO dao;
     private List<Contrato> contratos;
     private final Context context;
 
     public ContratoAdapter(Context context, ContratoDAO dao, List<Contrato> contratos) {
         this.context = context;
         this.contratos = contratos;
-        this.dao = dao;
     }
 
     @Override
@@ -55,8 +53,13 @@ public class ContratoAdapter extends BaseAdapter {
         return LayoutInflater.from(context).inflate(R.layout.item_contrato, viewGroup, false);
     }
 
-    public void atualizaContratos(Long idPessoa) {
-        this.contratos = dao.findByIdPessoa(idPessoa);
+    public void remove(int position) {
+        this.contratos.remove(position);
+        this.notifyDataSetChanged();
+    }
+
+    public void atualizaContratos(List<Contrato> contratoList) {
+        this.contratos = contratoList;
         this.notifyDataSetChanged();
     }
 }

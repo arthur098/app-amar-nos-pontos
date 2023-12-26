@@ -12,6 +12,9 @@ public interface PessoaDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(Pessoa pessoa);
 
+    @Update
+    void update(Pessoa pessoa);
+
     @Delete
     void delete(Pessoa pessoa);
 

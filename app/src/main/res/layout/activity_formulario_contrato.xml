@@ -13,10 +13,6 @@
                 android:layout_width="match_parent"
                 android:background="@color/color_main"
                 android:layout_height="?attr/actionBarSize">
-
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:contentDescription="logo amar"/>
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -58,8 +54,9 @@
     <EditText android:id="@+id/activity_formulario_contrato_observacao"
               android:hint="@string/observacao"
               android:layout_width="match_parent"
-              android:inputType="textCapSentences"
+              android:inputType="textMultiLine"
               android:layout_margin="8dp"
-              android:layout_height="wrap_content"/>
+              android:layout_height="wrap_content"
+              android:minLines="5"/>
 
 </LinearLayout>

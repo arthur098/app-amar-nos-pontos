@@ -10,10 +10,10 @@ import java.util.List;
 public interface ContratoDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(Contrato contrato);
+    void save(Contrato... contrato);
 
     @Delete
-    void delete(Contrato contrato);
+    void delete(Contrato... contrato);
 
     @Query("SELECT c.* FROM Contrato c WHERE c.id = :idContrato")
     Contrato findById(Long idContrato);

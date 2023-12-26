@@ -1,16 +1,17 @@
 package br.com.amar.nos.pontos.asynctask.endereco;
 
 import android.os.AsyncTask;
+import br.com.amar.nos.pontos.asynctask.listener.TaskListener;
 import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.model.Endereco;
 
-public class BuscaEnderecoAsyncTask extends AsyncTask<Long, Integer, Endereco> {
+public class BuscaEnderecoTask extends AsyncTask<Long, Integer, Endereco> {
 
     private final Long idEndereco;
     private final EnderecoDAO dao;
-    private EnderecoBuscadoListener listener;
+    private TaskListener<Endereco> listener;
 
-    public BuscaEnderecoAsyncTask(Long idEndereco, EnderecoDAO dao, EnderecoBuscadoListener listener) {
+    public BuscaEnderecoTask(Long idEndereco, EnderecoDAO dao, TaskListener<Endereco> listener) {
         this.idEndereco = idEndereco;
         this.listener = listener;
         this.dao = dao;
@@ -24,11 +25,7 @@ public class BuscaEnderecoAsyncTask extends AsyncTask<Long, Integer, Endereco> {
 
     @Override
     protected void onPostExecute(Endereco endereco) {
-        this.listener.onEnderecoBuscado(endereco);
+        this.listener.onComplete(endereco);
         super.onPostExecute(endereco);
-    }
-
-    public interface EnderecoBuscadoListener {
-        void onEnderecoBuscado(Endereco endereco);
     }
 }

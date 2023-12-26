@@ -1,16 +1,17 @@
 package br.com.amar.nos.pontos.asynctask.contrato;
 
 import android.os.AsyncTask;
+import br.com.amar.nos.pontos.asynctask.listener.ActionTaskListener;
 import br.com.amar.nos.pontos.database.dao.ContratoDAO;
 import br.com.amar.nos.pontos.model.Contrato;
 
-public class SalvaContratoAsyncTask extends AsyncTask<Void, Void, Void> {
+public class SalvaContratoTask extends AsyncTask<Void, Void, Void> {
 
     private final Contrato contrato;
     private final ContratoDAO contratoDAO;
-    private SalvaContratoListener listener;
+    private final ActionTaskListener listener;
 
-    public SalvaContratoAsyncTask(Contrato contrato, ContratoDAO dao, SalvaContratoListener listener) {
+    public SalvaContratoTask(Contrato contrato, ContratoDAO dao, ActionTaskListener listener) {
         this.contrato = contrato;
         this.listener = listener;
         this.contratoDAO = dao;
@@ -26,9 +27,5 @@ public class SalvaContratoAsyncTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void unused) {
         listener.onComplete();
         super.onPostExecute(unused);
-    }
-
-    public interface SalvaContratoListener {
-        void onComplete();
     }
 }

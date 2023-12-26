@@ -3,4 +3,7 @@
 
     <item android:id="@+id/activity_lista_contrato_menu_btn_gerar_contrato"
           android:title="@string/gerar_contrato" />
+
+    <item android:id="@+id/activity_lista_contrato_menu_btn_excluir"
+          android:title="@string/excluir" />
 </menu>

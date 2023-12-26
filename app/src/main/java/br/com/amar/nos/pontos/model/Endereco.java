@@ -1,15 +1,13 @@
 package br.com.amar.nos.pontos.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+import androidx.room.*;
 
 @Entity(foreignKeys = {@ForeignKey(entity = Pessoa.class,
             parentColumns = "id",
             childColumns = "idPessoa",
-            onDelete = ForeignKey.CASCADE)})
+            onDelete = ForeignKey.CASCADE)},
+indices = {@Index(value = "idPessoa")})
 public class Endereco {
 
     @PrimaryKey(autoGenerate = true)

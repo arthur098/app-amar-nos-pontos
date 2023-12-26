@@ -5,12 +5,16 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
+import br.com.amar.nos.pontos.database.converter.ConversorEstadoCivil;
+import br.com.amar.nos.pontos.database.converter.ConversorStatusContrato;
 import br.com.amar.nos.pontos.database.dao.*;
 import br.com.amar.nos.pontos.model.Contrato;
 import br.com.amar.nos.pontos.model.Endereco;
 import br.com.amar.nos.pontos.model.Pessoa;
 
 @Database(entities = { Pessoa.class, Endereco.class, Contrato.class }, version = 1, exportSchema = false)
+@TypeConverters({ConversorEstadoCivil.class, ConversorStatusContrato.class})
 public abstract class AmarDatabase extends RoomDatabase {
 
     public static final String NOME_BANCO_DE_DADOS = "amar-nos-pontos.db";
@@ -21,7 +25,6 @@ public abstract class AmarDatabase extends RoomDatabase {
 
     public static AmarDatabase getInstance(Context context) {
         return Room.databaseBuilder(context, AmarDatabase.class, NOME_BANCO_DE_DADOS)
-                .allowMainThreadQueries()
                 .build();
     }
 }

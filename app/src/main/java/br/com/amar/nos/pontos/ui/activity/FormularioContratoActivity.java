@@ -9,22 +9,20 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
 import br.com.amar.nos.pontos.asynctask.contrato.BuscaContratoTask;
-import br.com.amar.nos.pontos.asynctask.contrato.SalvaContratoAsyncTask;
+import br.com.amar.nos.pontos.asynctask.contrato.SalvaContratoTask;
+import br.com.amar.nos.pontos.asynctask.endereco.BuscaEnderecoPorIdPessoaTask;
 import br.com.amar.nos.pontos.database.AmarDatabase;
 import br.com.amar.nos.pontos.database.dao.ContratoDAO;
 import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
-import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.databinding.ActivityFormularioContratoBinding;
 import br.com.amar.nos.pontos.enumerator.EnumStatusContrato;
 import br.com.amar.nos.pontos.model.Contrato;
 import br.com.amar.nos.pontos.model.Endereco;
 import br.com.amar.nos.pontos.ui.dialog.SelecionarEnderecoDialog;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 public class FormularioContratoActivity extends AppCompatActivity {
 
@@ -35,18 +33,19 @@ public class FormularioContratoActivity extends AppCompatActivity {
 
     private Long idContrato = null;
     private EnderecoDAO enderecoDAO;
-    private PessoaDAO pessoaDAO;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewBind = ActivityFormularioContratoBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+
+        ActionBar supportActionBar = this.getSupportActionBar();
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+
         AmarDatabase db = AmarDatabase.getInstance(this);
         contratoDAO = db.contratoDAO();
         enderecoDAO = db.enderecoDAO();
-        pessoaDAO = db.pessoaDAO();
 
         Intent intent = getIntent();
         if(intent.hasExtra("idPessoa")) {
@@ -56,6 +55,7 @@ public class FormularioContratoActivity extends AppCompatActivity {
         if(intent.hasExtra("idContrato")) {
             idContrato = intent.getLongExtra("idContrato", 0);
         }
+        setTitle(idContrato != null ? "Editar Contrato" : "Novo Contrato");
 
         this.montaContrato();
         this.buildStatusSpinner();
@@ -71,37 +71,45 @@ public class FormularioContratoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.activity_formulario_menu_salvar) {
 
-            new BuscaContratoTask(idContrato, idPessoa, contratoDAO, (c) -> {
-                Contrato contrato = buildContratoPorIdPessoa(c);
-                final Endereco[] endereco = {null};
-                List<Endereco> enderecos = enderecoDAO.listByIdPessoa(idPessoa);
-                if(enderecos.isEmpty()) {
-                    Toast.makeText(FormularioContratoActivity.this, "Pessoa sem endereço cadastrado.", Toast.LENGTH_LONG).show();
-                } else if(enderecos.size() > 1) {
-                    new SelecionarEnderecoDialog(FormularioContratoActivity.this, enderecos, (enderecoSelecionado) -> {
-                        contrato.setEndereco(enderecoSelecionado);
-                        new SalvaContratoAsyncTask(contrato, contratoDAO, this::finish).execute();
-                    }).exibeDialogo(getSupportFragmentManager());
-                } else {
-                    endereco[0] = enderecos.get(0);
-                    contrato.setEndereco(endereco[0]);
-                    new SalvaContratoAsyncTask(contrato, contratoDAO, this::finish).execute();
-                }
-            }).execute();
+            if(validate()) {
+                new BuscaContratoTask(idContrato, contratoDAO, (c) -> {
+                    Contrato contrato = buildContratoPorIdPessoa(c);
+                    final Endereco[] endereco = {null};
+                    new BuscaEnderecoPorIdPessoaTask(idPessoa, enderecoDAO, (enderecos) -> {
+                        if(enderecos.isEmpty()) {
+                            Toast.makeText(FormularioContratoActivity.this, "Pessoa sem endereço cadastrado.", Toast.LENGTH_LONG).show();
+                        } else if(enderecos.size() > 1) {
+                            new SelecionarEnderecoDialog(FormularioContratoActivity.this, enderecos, (enderecoSelecionado) -> {
+                                contrato.setIdEndereco(enderecoSelecionado.getId());
+                                contrato.setEndereco(enderecoSelecionado);
+                                new SalvaContratoTask(contrato, contratoDAO, this::finish).execute();
+                            }).exibeDialogo(getSupportFragmentManager());
+                        } else {
+                            endereco[0] = enderecos.get(0);
+                            contrato.setIdEndereco(endereco[0].getId());
+                            new SalvaContratoTask(contrato, contratoDAO, this::finish).execute();
+                        }
+                    }).execute();
+                }).execute();
+            }
+        }
+        if(item.getItemId() == android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void montaContrato() {
         if(idContrato != null) {
-            Contrato contrato = contratoDAO.findById(idContrato);
-            viewBind.activityFormularioContratoProduto.setText(contrato.getProduto());
-            viewBind.activityFormularioContratoValor.setText(contrato.getValor().toString());
-            viewBind.activityFormularioContratoValorPago.setText(contrato.getValorPago().toString());
-            viewBind.activityFormularioContratoStatus.setSelection(contrato.getStatus().ordinal());
-            viewBind.activityFormularioContratoObservacao.setText(contrato.getObservacao());
-            viewBind.activityFormularioContratoDescricaoProduto.setText(contrato.getDescricaoProduto());
-            idPessoa = contrato.getPessoa().getId();
+            new BuscaContratoTask(idContrato, contratoDAO, (contrato) ->{
+                viewBind.activityFormularioContratoProduto.setText(contrato.getProduto());
+                viewBind.activityFormularioContratoValor.setText(contrato.getValor().toString());
+                viewBind.activityFormularioContratoValorPago.setText(contrato.getValorPago().toString());
+                viewBind.activityFormularioContratoStatus.setSelection(contrato.getStatus().ordinal());
+                viewBind.activityFormularioContratoObservacao.setText(contrato.getObservacao());
+                viewBind.activityFormularioContratoDescricaoProduto.setText(contrato.getDescricaoProduto());
+                idPessoa = contrato.getIdPessoa();
+            }).execute();
         }
     }
 
@@ -115,7 +123,7 @@ public class FormularioContratoActivity extends AppCompatActivity {
         contrato.setValor(Double.parseDouble(viewBind.activityFormularioContratoValor.getText().toString()));
         contrato.setValorPago(Double.parseDouble(viewBind.activityFormularioContratoValorPago.getText().toString()));
         contrato.setObservacao(viewBind.activityFormularioContratoObservacao.getText().toString());
-        contrato.setPessoa(pessoaDAO.findById(idPessoa));
+        contrato.setIdPessoa(idPessoa);
 
         return contrato;
     }
@@ -123,5 +131,23 @@ public class FormularioContratoActivity extends AppCompatActivity {
     private void buildStatusSpinner() {
         SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(FormularioContratoActivity.this, com.google.android.material.R.layout.support_simple_spinner_dropdown_item, EnumStatusContrato.values());
         viewBind.activityFormularioContratoStatus.setAdapter(spinnerAdapter);
+    }
+
+    public boolean validate() {
+        boolean isValido = false;
+
+        if(viewBind.activityFormularioContratoProduto.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioContratoActivity.this, "Informar o produto.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioContratoDescricaoProduto.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioContratoActivity.this, "Informar a descrição do produto.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioContratoValor.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioContratoActivity.this, "Informar o valor do produto.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioContratoValorPago.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioContratoActivity.this, "Informar o valor pago.", Toast.LENGTH_SHORT).show();
+        } else {
+            isValido = true;
+        }
+
+        return isValido;
     }
 }

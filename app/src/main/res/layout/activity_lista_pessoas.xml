@@ -18,9 +18,6 @@
                     android:background="@color/color_main"
                     android:layout_height="?attr/actionBarSize">
 
-                <ImageView android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:contentDescription="@string/logo_amar"/>
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -42,5 +39,7 @@
             android:layout_alignParentEnd="true"
             android:clickable="true"
             app:srcCompat="@drawable/ic_action_more"
+            android:backgroundTint="@color/color_main"
+            app:borderWidth="0dp"
             android:contentDescription="@string/nova_pessoa"/>
 </RelativeLayout>

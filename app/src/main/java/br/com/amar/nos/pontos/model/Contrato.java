@@ -1,9 +1,6 @@
 package br.com.amar.nos.pontos.model;
 
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+import androidx.room.*;
 import br.com.amar.nos.pontos.enumerator.EnumStatusContrato;
 
 @Entity(foreignKeys = {
@@ -13,6 +10,9 @@ import br.com.amar.nos.pontos.enumerator.EnumStatusContrato;
         @ForeignKey(entity = Pessoa.class,
         parentColumns = "id",
         childColumns = "idPessoa")
+}, indices = {
+        @Index(value = "idPessoa"),
+        @Index(value = "idEndereco")
 })
 public class Contrato {
 

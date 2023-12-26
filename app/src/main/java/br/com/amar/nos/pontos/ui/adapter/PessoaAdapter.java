@@ -6,7 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.asynctask.pessoa.BuscaPessoaTask;
+import br.com.amar.nos.pontos.asynctask.pessoa.BuscaPessoasTask;
+import br.com.amar.nos.pontos.asynctask.pessoa.ExcluirPessoaTask;
 import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.model.Pessoa;
 
@@ -18,9 +22,9 @@ public class PessoaAdapter extends BaseAdapter {
     private List<Pessoa> pessoas;
     private final Context context;
 
-    public PessoaAdapter(Context context, PessoaDAO pessoaDAO) {
+    public PessoaAdapter(Context context, List<Pessoa> pessoaList, PessoaDAO pessoaDAO) {
         this.context = context;
-        this.pessoas = pessoaDAO.list();
+        this.pessoas = pessoaList;
         this.pessoaDAO = pessoaDAO;
     }
 
@@ -56,12 +60,17 @@ public class PessoaAdapter extends BaseAdapter {
     }
 
     public void atualizaPessoa() {
-        this.pessoas = this.pessoaDAO.list();
-        this.notifyDataSetChanged();
+        new BuscaPessoasTask(pessoaDAO, (pessoasList) -> {
+            this.pessoas = pessoasList;
+            this.notifyDataSetChanged();
+        }).execute();
+
     }
 
     public void excluir(Long id) {
-        this.pessoaDAO.delete(this.pessoaDAO.findById(id));
-        atualizaPessoa();
+        new BuscaPessoaTask(id, this.pessoaDAO, pessoa -> new ExcluirPessoaTask(pessoa, this.pessoaDAO, () -> {
+            this.atualizaPessoa();
+            Toast.makeText(context, "Pessoa excluída com sucesso.", Toast.LENGTH_SHORT).show();
+        }).execute()).execute();
     }
 }

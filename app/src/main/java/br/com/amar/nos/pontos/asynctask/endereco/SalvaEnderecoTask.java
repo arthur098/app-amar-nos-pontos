@@ -1,17 +1,18 @@
 package br.com.amar.nos.pontos.asynctask.endereco;
 
 import android.os.AsyncTask;
+import br.com.amar.nos.pontos.asynctask.listener.ActionTaskListener;
 import br.com.amar.nos.pontos.database.dao.EnderecoDAO;
 import br.com.amar.nos.pontos.model.Endereco;
 
-public class SalvaEnderecoAsyncTask extends AsyncTask<Void, Void, Void> {
+public class SalvaEnderecoTask extends AsyncTask<Void, Void, Void> {
 
     private final Endereco endereco;
     private final EnderecoDAO dao;
 
-    private SalvaEnderecoListener salvaEnderecoListener;
+    private final ActionTaskListener salvaEnderecoListener;
 
-    public SalvaEnderecoAsyncTask(Endereco endereco, EnderecoDAO dao, SalvaEnderecoListener listener) {
+    public SalvaEnderecoTask(Endereco endereco, EnderecoDAO dao, ActionTaskListener listener) {
         this.endereco = endereco;
         this.salvaEnderecoListener = listener;
         this.dao = dao;
@@ -19,12 +20,8 @@ public class SalvaEnderecoAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        dao.save(endereco);
+        this.dao.save(endereco);
         this.salvaEnderecoListener.onComplete();
         return null;
-    }
-
-    public interface SalvaEnderecoListener {
-        void onComplete();
     }
 }

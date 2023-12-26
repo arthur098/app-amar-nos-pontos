@@ -6,10 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.amar.nos.pontos.R;
+import br.com.amar.nos.pontos.asynctask.pessoa.SalvarPessoaTask;
 import br.com.amar.nos.pontos.database.AmarDatabase;
 import br.com.amar.nos.pontos.database.dao.PessoaDAO;
 import br.com.amar.nos.pontos.databinding.ActivityFormularioPessoaBinding;
@@ -17,12 +20,9 @@ import br.com.amar.nos.pontos.enumerator.EnumEstadoCivil;
 import br.com.amar.nos.pontos.model.Pessoa;
 
 public class FormularioPessoaActivity extends AppCompatActivity {
-
-    private final AmarDatabase db = AmarDatabase.getInstance(this);
     private ActivityFormularioPessoaBinding viewBind;
     private Pessoa pessoa;
-
-    private PessoaDAO pessoaDAO = db.pessoaDAO();
+    private PessoaDAO pessoaDAO;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +30,12 @@ public class FormularioPessoaActivity extends AppCompatActivity {
         viewBind = ActivityFormularioPessoaBinding.inflate(getLayoutInflater());
         setContentView(viewBind.getRoot());
         setSupportActionBar(viewBind.toolbar);
+
+        ActionBar supportActionBar = this.getSupportActionBar();
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+
+        AmarDatabase db = AmarDatabase.getInstance(this);
+        pessoaDAO = db.pessoaDAO();
 
         SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(this, com.google.android.material.R.layout.support_simple_spinner_dropdown_item, EnumEstadoCivil.values());
         viewBind.activityFormularioPessoaEstadoCivilSpinner.setAdapter(spinnerAdapter);
@@ -46,8 +52,12 @@ public class FormularioPessoaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.activity_formulario_menu_salvar) {
-            montaPessoa();
-            pessoaDAO.save(pessoa);
+            if(validate()) {
+                montaPessoa();
+                new SalvarPessoaTask(pessoa, pessoaDAO, this::finish).execute();
+            }
+        }
+        if(item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -76,5 +86,24 @@ public class FormularioPessoaActivity extends AppCompatActivity {
             viewBind.activityFormularioPessoaEstadoCivilSpinner.setSelection(pessoa.getEstadoCivil() == null ? EnumEstadoCivil.SOLTEIRO.ordinal() : pessoa.getEstadoCivil().ordinal());
             viewBind.activityFormularioPessoaProfissao.setText(pessoa.getProfissao());
         }
+        setTitle(pessoa != null ? "Editar Pessoa" : "Nova Pessoa");
+    }
+
+    public boolean validate() {
+        boolean isValido = false;
+
+        if(viewBind.activityFormularioPessoaNomeCompleto.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioPessoaActivity.this, "Informar o nome completo.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioPessoaNacionalidade.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioPessoaActivity.this, "Informar a nacionalidade.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioPessoaProfissao.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioPessoaActivity.this, "Informar profissão.", Toast.LENGTH_SHORT).show();
+        } else if(viewBind.activityFormularioPessoaCpfCnpj.getText().toString().trim().isEmpty()) {
+            Toast.makeText(FormularioPessoaActivity.this, "Informar o CPF/CNPJ.", Toast.LENGTH_SHORT).show();
+        } else {
+            isValido = true;
+        }
+
+        return isValido;
     }
 }
