@@ -73,7 +73,7 @@ public class ContratoService {
                     new Chunk("CONTRATANTE ", fonteBold),
                     new Chunk("deverá fornecer a "),
                     new Chunk("CONTRATADA ", fonteBold),
-                    new Chunk("a CONTRATADA todas as informações necessárias à realização do serviço, devendo especificar os detalhes necessários à perfeita confecção do mesmo, e a forma de como ele deve ser entregue."));
+                    new Chunk("todas as informações necessárias à realização do serviço, devendo especificar os detalhes necessários à perfeita confecção do mesmo, e a forma de como ele deve ser entregue."));
 
             document.add(Chunk.NEWLINE);
 
